@@ -17,8 +17,12 @@ if __name__ == "__main__":
         time.sleep(0.01)
         if (on_off_switch):
             i += 1
-            mouse.move(-50,0, absolute=False, duration=0.1)
-            mouse.move(0,-50, absolute=False, duration=0.1)
-            mouse.move(50,0, absolute=False, duration=0.1)
-            mouse.move(0,50, absolute=False, duration=0.1)
+            mouse.move(-10,0, absolute=False, duration=1)
+            mouse.click(button='left')
+            #mouse.move(0,-10, absolute=False, duration=1)
+            #mouse.click(button='left')
+            mouse.move(10,0, absolute=False, duration=1)
+            mouse.click(button='left')
+            #mouse.move(0,10, absolute=False, duration=1)
+            #mouse.click(button='left')
             print("complete", i)
