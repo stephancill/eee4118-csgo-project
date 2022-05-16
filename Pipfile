@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 pymem = "*"
 requests = "*"
+keyboard = "*"
+mouse = "==0.5.0"
 
 [dev-packages]
 
