@@ -58,6 +58,8 @@ def main():
 
     recorder = Recorder()
 
+    
+
     def mouse_hook_callback(event):
         try:
             if event.event_type == "down" and event.button == "left" and not recorder.is_recording:
@@ -79,6 +81,7 @@ def main():
 
         if ammo == 0 and recorder.is_recording:
             recorder.end(write=True)
+            # TODO: Mouse up, mouse down
         
         # print(x_angle, y_angle)
 

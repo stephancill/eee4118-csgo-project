@@ -1,4 +1,5 @@
-import mouse 
+# import mouse 
+import pyautogui
 import time
 import keyboard
 
@@ -17,12 +18,11 @@ if __name__ == "__main__":
         time.sleep(0.01)
         if (on_off_switch):
             i += 1
-            mouse.move(-10,0, absolute=False, duration=1)
-            mouse.click(button='left')
-            #mouse.move(0,-10, absolute=False, duration=1)
-            #mouse.click(button='left')
-            mouse.move(10,0, absolute=False, duration=1)
-            mouse.click(button='left')
-            #mouse.move(0,10, absolute=False, duration=1)
-            #mouse.click(button='left')
+            # mouse.move(-500,0, absolute=False, duration=1, steps_per_second=5)
+            pyautogui.move(-500, 0, duration=1)
+            pyautogui.click()
+
+            pyautogui.move(500, 0, duration=1)
+            pyautogui.click()
+
             print("complete", i)
