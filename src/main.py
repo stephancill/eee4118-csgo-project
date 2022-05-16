@@ -7,7 +7,8 @@ from collections import namedtuple
 import mouse
 import os
 
-ANG_ADDR = 0x9FD2808
+Y_ANG_ADDR = 0x0545077C
+X_ANG_ADDR = 0x7141A940
 RECORDING_DIRECTORY = "recordings"
 
 Sample = namedtuple("Sample", ["x", "y", "clip", "time"])
@@ -69,20 +70,17 @@ def main():
     mouse.hook(mouse_hook_callback)
 
     while True:
-        ammo_new = server.gamestate.player.weapons["weapon_2"]["ammo_clip"]
-        y_angle_new = round(pm.read_float(ANG_ADDR), 2)
-        x_angle_new = round(pm.read_float(ANG_ADDR+4), 2)
-
-        if ammo_new != ammo or y_angle_new != y_angle or x_angle_new != x_angle: 
-            ammo = ammo_new
-            y_angle = y_angle_new
-            x_angle = x_angle_new
+        ammo = server.gamestate.player.weapons["weapon_2"]["ammo_clip"]
+        y_angle = round(pm.read_float(Y_ANG_ADDR), 2)
+        x_angle = round(pm.read_float(X_ANG_ADDR), 2)
 
         if recorder.is_recording:
             recorder.sample(x_angle, y_angle, ammo)
 
         if ammo == 0 and recorder.is_recording:
             recorder.end(write=True)
+        
+        # print(x_angle, y_angle)
 
         time.sleep(0.01)
 
