@@ -17,5 +17,4 @@ if __name__ == "__main__":
 
         print(server.gamestate.payload)
         
-        
         time.sleep(1)
