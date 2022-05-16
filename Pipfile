@@ -7,7 +7,7 @@ name = "pypi"
 pymem = "*"
 requests = "*"
 keyboard = "*"
-mouse = "*"
+mouse = {git = "https://github.com/boppreh/mouse.git"}
 
 [dev-packages]
 

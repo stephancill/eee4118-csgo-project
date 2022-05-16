@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e0a6df617e89972720682544fc2aa3938d0e4a01bffc170201d490b3ce4d3d9e"
+            "sha256": "f72cd07c947e4da5582d186f9fec9ced978f93a2fd47e6639f627739277859ea"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -48,11 +48,8 @@
             "version": "==0.13.5"
         },
         "mouse": {
-            "hashes": [
-                "sha256:d34bb9548890089fcb11988400e26f55c624e6c7b741fff75fedfdfbd37c0016"
-            ],
-            "index": "pypi",
-            "version": "==0.7.1"
+            "git": "https://github.com/boppreh/mouse.git",
+            "ref": "50384a4decd4dc94cb7449538b37c31b1d492f42"
         },
         "pymem": {
             "hashes": [
