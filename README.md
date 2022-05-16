@@ -1,5 +1,11 @@
 # CSGO Spray Control via Reinforcement Learning
 
+## Game client
+Launch options
+```
+-insecure -novid -netconport 2121 
+```
+
 ## Game state
 The model relies on the variation in the player camera angle. The camera angle is 
 read with a script via pymem. 
@@ -21,3 +27,6 @@ The memory address of the camera angle is found with ReClass.NET:
 - Repeat for second angle value
 
 With the known memory addresses, you can read the values via pymem in a script.
+
+## Input
+Ensure the raw_input setting is off
