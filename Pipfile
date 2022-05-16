@@ -8,6 +8,7 @@ pymem = "*"
 requests = "*"
 keyboard = "*"
 mouse = {git = "https://github.com/boppreh/mouse.git"}
+flask = "*"
 
 [dev-packages]
 
