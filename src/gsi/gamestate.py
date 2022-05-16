@@ -1,4 +1,4 @@
-import information
+from . import information
 
 class GameState:
     def __init__(self):
