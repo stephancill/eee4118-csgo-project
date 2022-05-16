@@ -4,13 +4,8 @@ import keyboard
 
 on_off_switch = False
 
-def toggle():
-    print("toggle")
-    global on_off_switch
-    on_off_switch = not on_off_switch
-
 if __name__ == "__main__":
-    keyboard.add_hotkey('/', lambda: toggle())
+    keyboard.add_hotkey('/', )
     time.sleep(1)
     i = 0
     while(True):
