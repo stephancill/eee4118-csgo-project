@@ -19,10 +19,10 @@ if __name__ == "__main__":
         if (on_off_switch):
             i += 1
             # mouse.move(-500,0, absolute=False, duration=1, steps_per_second=5)
-            pyautogui.move(-500, 0, duration=1)
+            pyautogui.move(-100, 0, duration=0.1)
             pyautogui.click()
 
-            pyautogui.move(500, 0, duration=1)
+            pyautogui.move(100, 0, duration=0.1)
             pyautogui.click()
 
             print("complete", i)
