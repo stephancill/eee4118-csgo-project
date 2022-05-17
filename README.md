@@ -3,7 +3,7 @@
 ## Game client
 Launch options
 ```
--insecure -novid -netconport 2121 
+-insecure -novid -netconport 2121 -w 1024 -h 768 -windowed
 ```
 
 ## Game state
