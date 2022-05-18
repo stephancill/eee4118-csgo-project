@@ -18,10 +18,10 @@ if not os.path.exists(TENSORBOARD_LOG):
 env = CSGOEnvironment(render_mode="human", timescale=2)
 wrapped_env = Monitor(env)
 # Train the agent
-model = A2C('MlpPolicy', wrapped_env, verbose=1, learning_rate=0.001, tensorboard_log=TENSORBOARD_LOG)
+model = A2C('MlpPolicy', wrapped_env, verbose=1, learning_rate=0.005, tensorboard_log=TENSORBOARD_LOG)
 
 # TODO EvalCallback with same environment
-model.learn(total_timesteps=10_000, log_interval=30)
+model.learn(total_timesteps=6_000, log_interval=30)
 t = time.time()
 model.save(f"{MODELS_DIRECTORY}/ak47_{str(round(t))}")
 
