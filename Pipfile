@@ -10,6 +10,9 @@ keyboard = "*"
 mouse = {git = "https://github.com/boppreh/mouse.git"}
 flask = "*"
 pyautogui = "*"
+tensorflow = "*"
+stable-baselines3 = {extras = ["extra"], version = "*"}
+numpy = "*"
 
 [dev-packages]
 
