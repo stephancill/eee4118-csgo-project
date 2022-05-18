@@ -11,11 +11,12 @@ if not os.path.exists(MODELS_DIRECTORY):
 
 env = CSGOEnvironment( render_mode="human")
 # Train the agent
-model = A2C('MlpPolicy', env, verbose=1).learn(1000)
+model = A2C('MlpPolicy', env, verbose=1, learning_rate=0.01)
+model.learn(total_timesteps=40_000)
 t = time.time()
 model.save(f"{MODELS_DIRECTORY}/ak47_{str(round(t))}")
 
-# model = A2C.load(f"{MODELS_DIRECTORY}/ak47_1652832565")
+# model = A2C.load(f"{MODELS_DIRECTORY}/ak47_1652834378")
 obs = env.reset()
 done = False
 step = 0

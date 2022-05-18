@@ -20,7 +20,7 @@ class CSGOTelnetClient:
         print("Successfully Connected")
     
     def run(self, command):
-        print ("running: ", command)
+        # print ("running: ", command)
         self.tn.write(str.encode("echo Remote Command: " + command + endl))
         self.tn.write(str.encode(command + endl))
         time.sleep(0.05)

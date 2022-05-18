@@ -46,11 +46,10 @@ class CSGOEnvironment(gym.Env):
         return np.array([x_angle, y_angle])
 
     def reset(self):
-        print("reset")
         mouse.release()
         time.sleep(2/self.timescale) # There is a cooldown for the kill command
         self.telnet_client.run("kill")
-        time.sleep(2/self.timescale)
+        time.sleep(4/self.timescale)
 
         mouse.hold()
         self.initial_state = np.zeros((2,), dtype=np.float32)
@@ -67,13 +66,17 @@ class CSGOEnvironment(gym.Env):
         observation = self._get_obs()
         sq = observation[0] ** 2 + observation[1] ** 2
 
-        if round(sq) < 5:
-            reward = 1000/max(sq, 0.01)
+        if sq < 500:
+            if sq < 1:
+                reward = 100/max(sq, 0.01)
+            else:
+                reward = -sq * 5
+            reward += 100/max(30-ammo, 0.01)
         else:
-            reward = -sq
-
-        if sq > 100:
+            reward = -200000
             done = True
+
+        print(reward)
 
         return observation, reward, done, {}
     
