@@ -20,9 +20,7 @@ class CSGOEnvironment(gym.Env):
     def __init__(self, timescale=4, render_mode: str = None):
         assert render_mode is None or render_mode in self.metadata["render.modes"]
         # Define action and observation space
-        # They must be gym.spaces objects
         self.action_space = spaces.Box(low=-1, high=1, shape=(2,))
-        # Example for using image as input (channel-first; channel-last also works):
         self.observation_space = spaces.Box(low=np.array([-180, -90]), high=np.array([180, 90]), shape=(2,))
 
         self.timescale = timescale
@@ -39,6 +37,8 @@ class CSGOEnvironment(gym.Env):
         self.telnet_client.run("exec bot")
         self.telnet_client.run(f"host_timescale {timescale}")
 
+        self.step_counter = 0
+
 
     def _get_obs(self):
         x_angle = np.float32(round(self.pm.read_float(self.client+X_ANG_ADDR_OFFSET), 2) - self.initial_state[0])
@@ -46,10 +46,14 @@ class CSGOEnvironment(gym.Env):
         return np.array([x_angle, y_angle])
 
     def reset(self):
+        self.step_counter = 0
         mouse.release()
-        time.sleep(2/self.timescale) # There is a cooldown for the kill command
+        time.sleep(1/self.timescale) # There is a cooldown for the kill command
         self.telnet_client.run("kill")
-        time.sleep(4/self.timescale)
+        time.sleep(2/self.timescale)
+
+        self.telnet_client.run("setang 0 -98")
+        self.telnet_client.run("r_cleardecals")
 
         mouse.hold()
         self.initial_state = np.zeros((2,), dtype=np.float32)
@@ -58,25 +62,52 @@ class CSGOEnvironment(gym.Env):
         return observation
 
     def step(self, action):
-        ak_47 = [weapon for weapon in self.server.gamestate.player.weapons.values() if weapon["name"] == "weapon_ak47"][0]
+        self.step_counter += 1
+        
+        ak47_key, ak_47 = [(key, weapon) for key, weapon in self.server.gamestate.player.weapons.items() if weapon["name"] == "weapon_ak47"][0]
         ammo = ak_47["ammo_clip"]
-        reloading = ak_47["state"] == "reloading"
-        mouse.move(action[0]*10, action[1]*10, absolute=False)
-        done = ammo == 0
+        # reloading = ak_47["state"] == "reloading"
+        
+        mouse.move(action[0]*100, action[1]*100, absolute=False)
+        
         observation = self._get_obs()
         sq = observation[0] ** 2 + observation[1] ** 2
 
-        if sq < 500:
-            if sq < 1:
-                reward = 100/max(sq, 0.01)
-            else:
-                reward = -sq * 5
-            reward += 100/max(30-ammo, 0.01)
-        else:
-            reward = -200000
-            done = True
+        current_ammo = ammo
 
-        print(reward)
+        done = current_ammo == 0
+
+        # Wait for next bullet to be fired
+        while current_ammo == ammo:
+            ak_47 = self.server.gamestate.player.weapons[ak47_key]
+            current_ammo = ak_47["ammo_clip"]
+            done = current_ammo == 0
+            if done: break
+            time.sleep(0.005)
+            
+
+        # if sq < 230:
+        #     if sq < 1:
+        #         reward = 100/max(sq, 0.01)
+        #     else:
+        #         reward = -sq * 5
+        #     reward += 100/max(30-ammo, 0.01)
+        # else:
+        #     reward = -200000
+
+        if sq < 10:
+            reward = 100/max(sq, 0.01)
+        else:
+            reward = -sq
+
+        print(ammo, reward, action[0], action[1])
+
+        if (done):
+            print(done)
+
+        
+
+        # print(self.step_counter, reward, [action[0]*100, action[1]*100])
 
         return observation, reward, done, {}
     

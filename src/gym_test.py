@@ -1,18 +1,27 @@
 from custom_gym import CSGOEnvironment
-from stable_baselines3 import A2C, DQN
+from stable_baselines3 import A2C, DDPG, DQN
 from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
+from stable_baselines3.common.monitor import Monitor
 import os
 import time
 
 MODELS_DIRECTORY = "models"
+TENSORBOARD_LOG = "tensorboard-logs"
 
 if not os.path.exists(MODELS_DIRECTORY):
     os.makedirs(MODELS_DIRECTORY)
 
-env = CSGOEnvironment( render_mode="human")
+if not os.path.exists(TENSORBOARD_LOG):
+    os.makedirs(TENSORBOARD_LOG)
+
+env = CSGOEnvironment(render_mode="human", timescale=2)
+wrapped_env = Monitor(env)
 # Train the agent
-model = A2C('MlpPolicy', env, verbose=1, learning_rate=0.01)
-model.learn(total_timesteps=40_000)
+model = A2C('MlpPolicy', wrapped_env, verbose=1, learning_rate=0.001, tensorboard_log=TENSORBOARD_LOG)
+
+# TODO EvalCallback with same environment
+model.learn(total_timesteps=10_000, log_interval=30)
 t = time.time()
 model.save(f"{MODELS_DIRECTORY}/ak47_{str(round(t))}")
 

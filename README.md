@@ -30,3 +30,10 @@ With the known memory addresses, you can read the values via pymem in a script.
 
 ## Input
 Ensure the raw_input setting is off
+
+## Trained model comments
+### A2C_4
+Model peaks and then falls off because the learning rate is too high (0.1), each change makes it overshoot by far because it chooses an action on the boundaries [-1, 1], constantly overshooting the target.
+
+### A2C_10 `ak47_1652911551.zip`
+Lower learning rate (0.001) makes it converge much more quickly. One note is that the it cannot reach the target in one step because the action space is too small. I.e. it has to correct by a distance of > 1 but can only move 1 unit.
