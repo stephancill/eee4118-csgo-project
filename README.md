@@ -46,3 +46,14 @@ Learning rate of (0.005) starts with lower reward rates but converges more quick
 
 ### A2C_17
 Learning rate of (0.005) - random initialization caused it to perform poorly at the beginning. Eventually it caught up to A2C_10 but ended up falling off due to the higher learning rate causing overshoot.
+
+### A2C_25
+This one only takes an action every 3 timesteps. It converges on a very low reward rate due to the noise in the final position of the camera after every third bullet causing it to be hard to predict and because it does not move continuously, it has to make wild corrections instantaneously. It would be good to try some kind of movement delay.
+
+## Bottlenecks
+### Sampling rate
+The the game state integrator cannot provide information about ammo at a fast enough rate which prevents the model from taking action more frequently. This means that the model has to take more drastic actions every time it has the opportunity to, resulting in more choppy behaviour.
+
+## Design decisions
+### Ammo as an indicator
+The firing rate of a weapon scales lineraly with the host timescale. We want to train at a higher speed in order to perform more episodes in each training batch and complete training faster. When we want to use the model, it predicts which movement to do to counteract the recoil per bullet, which will be the same regardless of time scale so.

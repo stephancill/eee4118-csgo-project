@@ -78,7 +78,7 @@ class CSGOEnvironment(gym.Env):
         done = current_ammo == 0
 
         # Wait for next bullet to be fired
-        while current_ammo == ammo:
+        while current_ammo > ammo - 3:
             ak_47 = self.server.gamestate.player.weapons[ak47_key]
             current_ammo = ak_47["ammo_clip"]
             done = current_ammo == 0
@@ -96,7 +96,7 @@ class CSGOEnvironment(gym.Env):
         #     reward = -200000
 
         if sq < 10:
-            reward = 100/max(sq, 0.01)
+            reward = 10/max(sq, 0.1)
         else:
             reward = -sq
 
