@@ -15,17 +15,17 @@ if not os.path.exists(MODELS_DIRECTORY):
 if not os.path.exists(TENSORBOARD_LOG):
     os.makedirs(TENSORBOARD_LOG)
 
-env = CSGOEnvironment(render_mode="human", timescale=4)
+env = CSGOEnvironment(render_mode="human", timescale=2)
 wrapped_env = Monitor(env)
 # Train the agent
 model = A2C('MlpPolicy', wrapped_env, verbose=1, learning_rate=0.001, tensorboard_log=TENSORBOARD_LOG)
 
 # TODO EvalCallback with same environment
-model.learn(total_timesteps=10_000, log_interval=30)
+model.learn(total_timesteps=4_000, log_interval=30)
 t = time.time()
 model.save(f"{MODELS_DIRECTORY}/ak47_{str(round(t))}")
 
-# model = A2C.load(f"{MODELS_DIRECTORY}/ak47_1652922188")
+# model = A2C.load(f"{MODELS_DIRECTORY}/ak47_1652911551")
 obs = env.reset()
 done = False
 step = 0

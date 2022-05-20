@@ -52,6 +52,7 @@ class CSGOEnvironment(gym.Env):
         self.telnet_client.run("kill")
         time.sleep(2/self.timescale)
 
+        self.telnet_client.run("slot1")
         self.telnet_client.run("setang 0 -98")
         self.telnet_client.run("r_cleardecals")
 
@@ -78,7 +79,7 @@ class CSGOEnvironment(gym.Env):
         done = current_ammo == 0
 
         # Wait for next bullet to be fired
-        while current_ammo > ammo - 3:
+        while current_ammo == ammo: # current_ammo >= ammo - N, where N is the number of bullets to wait until taking action
             ak_47 = self.server.gamestate.player.weapons[ak47_key]
             current_ammo = ak_47["ammo_clip"]
             done = current_ammo == 0
@@ -100,7 +101,7 @@ class CSGOEnvironment(gym.Env):
         else:
             reward = -sq
 
-        print(ammo, reward, action[0], action[1])
+        # print(ammo, reward, action[0], action[1])
 
         if (done):
             print(done)
